@@ -30,27 +30,27 @@ export class LoginComponentComponent implements OnInit {
   @Input()
   messageAlert: string;
 
-  private _updateLogin(){
+   _updateLogin(){
     if(document.getElementsByName("login")[0]!=null){
       this.login = document.getElementsByName("login")[0]["value"];
     }
   }
 
-  private _updatePassword(){
+   _updatePassword(){
     if(document.getElementsByName("password")[0]!=null){
       this.password = document.getElementsByName("password")[0]["value"];
     }
   }
 
-  private _valid(){
+   _valid(){
+    this._updateLogin();
+    this._updatePassword();
     this.validLoginAndPasswordEvent.emit({ login: this.login, password: this.password });
   }
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
      if(event.key==="Enter"){
-       this._updateLogin();
-       this._updatePassword();
        this._valid();
      }
   }

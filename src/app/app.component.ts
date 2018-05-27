@@ -41,7 +41,7 @@ export class AppComponent {
 
   private _opened: boolean = false;
 
-  private _toggleSidebar() {
+   _toggleSidebar() {
     this._opened = !this._opened; 
   }
 
@@ -59,6 +59,7 @@ export class AppComponent {
       this.messageAlert="";
       this.activeUser = this.mapUsers.get($event.login);
       this.userIsAdmin=this.activeUser.category===Category.ADMIN;
+      this._opened =true;
     }
   }
 

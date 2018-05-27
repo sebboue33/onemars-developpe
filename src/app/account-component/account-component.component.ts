@@ -12,7 +12,7 @@ export class AccountComponentComponent implements OnInit {
 
   constructor() { }
 
-  private _getUserCategory(cat){
+   _getUserCategory(cat){
     if(cat===Category.USER){
       return "Utilisateur";
     }else{

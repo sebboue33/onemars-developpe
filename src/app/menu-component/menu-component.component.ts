@@ -31,23 +31,23 @@ export class MenuComponentComponent implements OnInit {
   deconnectUserEvent = new EventEmitter();
 
 
-  private _showUserComponent(){
+   _showUserComponent(){
     this.showUserComponentEvent.emit(null);
   }
 
-  private _showBookingComponent(){
+   _showBookingComponent(){
     this.showBookingComponentEvent.emit(null);
   }
 
-  private _showContactComponent(){
+   _showContactComponent(){
     this.showContactComponentEvent.emit(null);
   }
 
-  private _showBookingBoardComponent(){
+   _showBookingBoardComponent(){
     this.showBookingBoardComponentEvent.emit(null);
   }
 
-  private _deconnectUser(){
+   _deconnectUser(){
     this.deconnectUserEvent.emit(null);
   }
 
