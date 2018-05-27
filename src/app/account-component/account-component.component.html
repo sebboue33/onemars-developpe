@@ -1,0 +1,30 @@
+<div class="contentContainerAccount">
+
+    <div class="headerAccount">
+        <span class="iconHeader glyphicon glyphicon-user "></span>
+        <div class=labelHeader>Mon Compte</div>
+        
+    </div>
+
+    <div class="tabData">
+      <tr>
+          <td class="labelData">Prénom :</td>
+          <td class="accountData">{{userSelected.lastname}}</td>
+      </tr>
+      <tr>
+          <td class="labelData">Nom :</td>
+          <td class="accountData">{{userSelected.firstName}}</td>
+      </tr>
+      <tr>
+          <td class="labelData">Login :</td>
+          <td class="accountData">{{userSelected.login}}</td>
+      </tr>
+      <tr>
+          <td class="labelData">Catégorie :</td>
+          <td class="accountData">{{_getUserCategory(userSelected.category)}}</td>
+      </tr>
+
+    </div>
+    
+
+</div>

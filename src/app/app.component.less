@@ -1,0 +1,72 @@
+@import "./assets/globalColor.less";
+
+
+.mainContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    padding-left: 0px !important;
+}
+
+.headerComponent{
+    
+    background-image: url("./assets/header.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border: 2px solid @background_color5;
+    height: 30%;
+}
+
+
+.burgerButton{
+    width: 45px;
+    height: 45px;
+    border: none;
+    color: @background_color5;
+    background-color: transparent;
+    font-size: 3rem;
+    margin-top: 25vh;
+    outline: none;
+}
+
+.leftPanel{
+
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari et Chrome */
+    -o-animation: fadein 2s; /* Opera */
+
+    background-image: url("./assets/header.png");
+    background-size: 100% 137%;
+    height: 70%;
+}
+
+.rightPanel{
+
+     background-color:  @background_color5;   
+    height: 100%;
+    padding: 2%;
+}
+
+.contentContainer{
+    margin: auto;
+    width: 100%;
+    height: 80;
+    padding-top: 11%;
+    border-radius: 30px;
+    background-color: @background_color1;
+    // filter: blur(9px);
+
+}
+
+.contentMain{
+    z-index: 0;
+}
+
+.messageAlert{
+    color: white;
+}
+
+

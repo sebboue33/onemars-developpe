@@ -1,0 +1,32 @@
+<div class="menuButtonContainer">
+    <div class="buttonContainer">
+      <button (click)="_showUserComponent()" class="menuButton" >
+        <span class="menuIcon glyphicon glyphicon-user "></span>
+        <div class="labelMenu">Mon Compte</div>
+      </button>
+    </div>
+    <div class="buttonContainer">
+      <button (click)="_showBookingComponent()" class="menuButton" >
+        <span class="menuIcon glyphicon glyphicon-bed "></span>
+        <div class="labelMenu">Mes réservations</div>
+      </button>
+    </div>  
+    <div class="buttonContainer">
+      <button (click)="_showContactComponent()" class="menuButton" >
+        <span class="menuIcon glyphicon glyphicon-envelope "></span>
+        <div class="labelMenu">Contactez-nous</div>
+      </button>
+    </div>
+    <div *ngIf="admin" class="buttonContainer">
+      <button (click)="_showBookingBoardComponent()" class="menuButton" >
+        <span class="menuIcon glyphicon glyphicon-calendar "></span>
+        <div class="labelMenu"> Agenda des réservations</div>
+      </button>
+    </div>
+    <div class="buttonContainer">
+        <button (click)="_deconnectUser()" class="menuButton" >
+          <span class="menuIcon glyphicon glyphicon-log-out "></span>
+          <div class="labelMenu">Se déconnecter</div>
+        </button>
+      </div>
+  </div>  

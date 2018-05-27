@@ -1,0 +1,30 @@
+<div class="contentContainer">
+
+    <div class="loginPasswordContainer">
+        <div class="loginContainer">
+            <div class="labelContainer">
+              <span class="loginIcon glyphicon glyphicon-user "></span>
+              <div class=label>Identifiant</div>
+            </div>
+          <input  placeholder="Saisir votre identifiant" type="text" name="login" value="">
+        </div> 
+        <div class="passwordContainer">
+            <div class="labelContainer">
+              <span class="loginIcon glyphicon glyphicon-lock "></span>
+              <div class=label>Mot de passe</div>
+            </div>
+          <input  placeholder="Saisir votre mot de passe" type="password" name="password" value="">
+        </div>
+        <div class="buttonContainer">
+          
+            <button (click)="_valid()" class="loginValidButton" >
+              <span class="loginIcon glyphicon glyphicon-ok "></span>
+              <div>Valider</div>
+            </button>
+        </div>
+    </div>
+    <div class="messageAlert" *ngIf="messageAlert!=''">
+      {{messageAlert}}
+    </div>
+
+  </div>

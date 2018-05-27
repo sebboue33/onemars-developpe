@@ -1,0 +1,44 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="mainContainer">
+
+      <!-- Bouton Menu -->
+    <div class="headerComponent">
+      <button ng-disabled="true" (click)="_toggleSidebar()" class="burgerButton" ><span class="menuIcon glyphicon glyphicon-menu-hamburger "></span></button>
+    </div>
+
+
+    <app-login-component [messageAlert]="messageAlert" (validLoginAndPasswordEvent)="_checkAuthorization($event)" *ngIf="!accessAuthorized"></app-login-component>
+
+    <div *ngIf="accessAuthorized">
+      <ng-sidebar-container class="leftPanel">
+        <div ng-sidebar-content>
+          <ng-sidebar [(opened)]="_opened" [mode]="'push'">
+          <app-menu-component 
+              [admin]="userIsAdmin"    
+              (deconnectUserEvent)="accessAuthorized=false"
+              (showUserComponentEvent)="_maskAllScreen($event); myAccountVisible=true"
+              (showBookingComponentEvent)="_maskAllScreen($event); myBookingVisible=true"
+              (showContactComponentEvent)="_maskAllScreen($event); contactVisible=true"
+              (showBookingBoardComponentEvent)="_maskAllScreen($event); bookingBoardVisible=true"></app-menu-component>
+              
+            </ng-sidebar>
+          <div class="rightPanel">
+            <div  *ngIf="myAccountVisible">
+                <app-account-component [userSelected]="activeUser"></app-account-component>
+            </div>
+            <div  *ngIf="myBookingVisible">
+              <app-booking-component></app-booking-component>
+            </div>
+            <div  *ngIf="contactVisible">
+              <app-contact-component></app-contact-component>
+            </div>
+            <div  *ngIf="bookingBoardVisible">
+              <app-booking-board-component></app-booking-board-component>
+            </div>      
+          </div>
+        </div>
+      </ng-sidebar-container>
+  </div>
+</div>
+
+
