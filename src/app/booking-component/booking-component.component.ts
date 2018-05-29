@@ -6,6 +6,7 @@ import { EventEmitter } from 'events';
 import * as BookingServices from 'src/app/services/BookingServices';
 import { Month } from '../enums/Month';
 import { EnumValues } from 'enum-values';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-booking-component',
@@ -18,6 +19,8 @@ export class BookingComponentComponent implements OnInit {
   selectedHouse: House;
   monthStartSelected = 0;
   monthEndSelected = 0;
+  observableMonthStart = new BehaviorSubject<number>(0);
+  houseVisible = false;
 
   @Input()
   tabMonths: any[] = EnumValues.getValues(Month);
@@ -35,10 +38,15 @@ export class BookingComponentComponent implements OnInit {
 
   ngOnInit() {
 
-    const self = this;
     BookingServices.getHouses().forEach(element => {
-      self.tabHouses.push(element);
+      this.tabHouses.push(element);
     });
+
+    // Evenement sur choix d'un mois
+    this.observableMonthStart.subscribe(item => {
+      this.houseVisible = this.monthStartSelected !== 0;
+      });
+
   }
 
   updateSelectedHouse(event: House): void {
@@ -48,11 +56,12 @@ export class BookingComponentComponent implements OnInit {
 
   selectMonth(monthSelected) {
 
+    
+
     // Si aucun mois selectionné
     if (this.monthStartSelected === 0 && this.monthEndSelected === 0) {
       document.getElementById('monthid-' + monthSelected.id).classList.add('itemMonthsLineSelected');
       this.monthStartSelected = monthSelected.id;
-
     } else
       // Si mois debut sectionné
       if (this.monthStartSelected !== 0) {
@@ -66,12 +75,12 @@ export class BookingComponentComponent implements OnInit {
             this.removeAllSelectedMonthsNotFirst();
           } else if (monthSelected.id > this.monthStartSelected) {
 
-              if (monthSelected.id < this.monthEndSelected) {
-                this.removeAllSelectedMonthsNotFirst();
-              }
+            if (monthSelected.id < this.monthEndSelected) {
+              this.removeAllSelectedMonthsNotFirst();
+            }
 
-              this.monthEndSelected = monthSelected.id;
-              this.selectMonthPlage();
+            this.monthEndSelected = monthSelected.id;
+            this.selectMonthPlage();
           } else {
             this.monthStartSelected = monthSelected.id;
             this.selectMonthPlage();
@@ -83,6 +92,8 @@ export class BookingComponentComponent implements OnInit {
           }
         }
       }
+
+      this.observableMonthStart.next(monthSelected);
   }
 
   selectMonthPlage() {

@@ -5,7 +5,7 @@
     <div class=labelHeader>Mes réservations</div>
 
   </div>
-  <div>
+  <div class="containerDataBooking">
 
     <div>Selectionnez la periode pour votre séjour : </div>
     <br>
@@ -15,12 +15,19 @@
       </div>
     </div>
 
-    <div>Selectionnez votre maison : </div>
-    <select (change)="HouseChangeValue($event)" (ngModel)="house.id">
-      <option *ngFor='let house of tabHouses' [value]="house.idHouse">
-        {{house.name}}
-      </option>
-    </select>
+    <br>
+    <br>
+    <br>
+
+    <div *ngIf="houseVisible" class="houseContainer">
+        <div>Selectionnez la maison pour votre séjour : </div>
+        <br>
+        <div class="monthsLineContainer">
+          <div [attr.id]="'monthid-' + houseSelected.idHouse" class="itemHouse" (click)="selectHouse(houseSelected)" *ngFor='let houseSelected of tabHouses' >
+            {{houseSelected.name}}
+          </div>
+        </div>
+    </div>
 
 
   </div>
