@@ -1,4 +1,34 @@
-<div class="contentContainer">
+<div class="contentContainerBooking">
 
-BOOKING
+  <div class="headerAccount">
+    <span class="iconHeader glyphicon glyphicon-bed "></span>
+    <div class=labelHeader>Mes réservations</div>
+
   </div>
+  <div>
+
+
+    <div>Selectionnez le mois de début de votre séjour : </div>
+    <select (change) = "MonthStartChangeValue($event)" (ngModel)="monthStart.id">
+      <option *ngFor='let monthStart of tabStartMonth' [value]="monthStart.id">
+        {{monthStart.value}}
+      </option>
+    </select>
+
+    <div>Selectionnez le mois de fin de votre séjour : </div>
+    <select (change) = "MonthEndChangeValue($event)" (ngModel)="monthEnd.id">
+      <option *ngFor='let monthEnd of tabEndMonth' [value]="monthEnd.id">
+        {{monthEnd.value}}
+      </option>
+    </select>
+
+    <div>Selectionnez votre maison : </div>
+    <select (change) = "HouseChangeValue($event)" (ngModel)="house.id">
+      <option *ngFor='let house of tabHouses' [value]="house.idHouse">
+        {{house.name}}
+      </option>
+    </select>
+
+
+  </div>
+</div>

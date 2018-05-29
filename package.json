@@ -24,6 +24,7 @@
     "@angular/router": "^6.0.3",
     "bootstrap-material-design": "^4.1.1",
     "core-js": "^2.5.4",
+    "enum-values": "^1.2.0",
     "glyphicons": "^0.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",

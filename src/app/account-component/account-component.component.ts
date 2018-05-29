@@ -12,18 +12,17 @@ export class AccountComponentComponent implements OnInit {
 
   constructor() { }
 
+  @Input()
+  userSelected: User;
+
    _getUserCategory(cat){
-    if(cat===Category.USER){
-      return "Utilisateur";
-    }else{
-      return "Administrateur";
+    if(cat === Category.USER){
+      return 'Utilisateur';
+    } else {
+      return 'Administrateur';
     }
   }
 
   ngOnInit() {
   }
-
-  @Input()
-  userSelected:User;
-
 }
