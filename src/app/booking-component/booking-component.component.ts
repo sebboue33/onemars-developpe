@@ -19,7 +19,11 @@ export class BookingComponentComponent implements OnInit {
   selectedHouse: House;
   monthStartSelected = 0;
   monthEndSelected = 0;
+  observablePeriode = new BehaviorSubject<number>(0);
   observableMonthStart = new BehaviorSubject<number>(0);
+  observableMonthEnd = new BehaviorSubject<number>(0);
+  labelStartPeriode = '';
+  labelEndPeriode = '';
   houseVisible = false;
 
   @Input()
@@ -43,9 +47,22 @@ export class BookingComponentComponent implements OnInit {
     });
 
     // Evenement sur choix d'un mois
-    this.observableMonthStart.subscribe(item => {
+    this.observablePeriode.subscribe(item => {
       this.houseVisible = this.monthStartSelected !== 0;
-      });
+
+      if (this.monthStartSelected !== 0) {
+        this.labelStartPeriode = this.tabMonths[this.monthStartSelected - 1].value;
+      } else {
+        this.labelStartPeriode = '';
+      }
+
+      if (this.monthEndSelected !== 0) {
+        this.labelEndPeriode = this.tabMonths[this.monthEndSelected - 1].value;
+      } else {
+        this.labelEndPeriode = '';
+      }
+
+    });
 
   }
 
@@ -55,8 +72,6 @@ export class BookingComponentComponent implements OnInit {
 
 
   selectMonth(monthSelected) {
-
-    
 
     // Si aucun mois selectionné
     if (this.monthStartSelected === 0 && this.monthEndSelected === 0) {
@@ -93,7 +108,7 @@ export class BookingComponentComponent implements OnInit {
         }
       }
 
-      this.observableMonthStart.next(monthSelected);
+    this.observablePeriode.next(monthSelected);
   }
 
   selectMonthPlage() {

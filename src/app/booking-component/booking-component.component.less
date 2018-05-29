@@ -13,7 +13,8 @@
     border-radius: 10px;
     background-color:@background_color1;
     font-size: 1.5rem;
-    // filter: blur(9px);
+    font-weight: bold;
+
 
     .containerDataBooking{
         margin:5%;
@@ -69,7 +70,7 @@
 
 
     .itemHouse{
-        height: 200px;
+        height: 27rem;
         width: 100%;
         text-align: center;
         padding-top: 15px;
@@ -78,6 +79,7 @@
         border-radius: 10px;
         background-color: @background_color2;
         transition: all 1s;
+        display: flex;
     }
 
     .itemHouse:hover{
@@ -91,6 +93,58 @@
         color:white;
     }
 
+    .containerPeriodeLabel{
+        display:flex;
+        flex-direction: row;
+        flex:auto;
+    }
+
+    .labelPeriode{
+        color:@font_color3;
+        font-weight: bold;
+    }
+
+    #imgHouse-HA{
+        background-image: url("../assets/maisonHA.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    #imgHouse-HB{
+        background-image: url("../assets/maisonHB.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    #imgHouse-HC{
+        background-image: url("../assets/maisonHC.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    .titleHouse{
+        width: 50%;
+        padding-top: 11rem;
+        font-weight: bold;
+    }
+
+    .housesContainer{
+        display: flex;
+        flex-direction: row;
+        flex:auto;
+    }
 }
 
 
