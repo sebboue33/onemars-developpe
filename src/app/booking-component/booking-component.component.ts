@@ -16,18 +16,17 @@ export class BookingComponentComponent implements OnInit {
 
   tabHouses: House[] = new Array();
   selectedHouse: House;
+  monthStartSelected = 0;
+  monthEndSelected = 0;
 
   @Input()
-  tabMonths: any [] =  EnumValues.getValues(Month);
-
-  tabStartMonth: any[] = new Array();
-  tabEndMonth: any[] = new Array();
+  tabMonths: any[] = EnumValues.getValues(Month);
 
   @Output()
   updateBookingBoard = new EventEmitter();
 
 
-   _showUserComponent(){
+  _showUserComponent() {
     this.updateBookingBoard.emit(null);
   }
 
@@ -35,8 +34,6 @@ export class BookingComponentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.tabStartMonth = this.tabMonths.slice();
-    this.tabEndMonth = this.tabMonths.slice();
 
     const self = this;
     BookingServices.getHouses().forEach(element => {
@@ -48,37 +45,73 @@ export class BookingComponentComponent implements OnInit {
     this.selectedHouse = event;
   }
 
-  MonthStartChangeValue(event) {
-    this.tabEndMonth = this.tabMonths.slice(0);
-    const tabIndex: number[] = new Array();
-    for (let index = 0; index < this.tabEndMonth.length; index++) {
-      if(index  < event.currentTarget.selectedIndex) {
-        tabIndex.push(index);
+
+  selectMonth(monthSelected) {
+
+    // Si aucun mois selectionné
+    if (this.monthStartSelected === 0 && this.monthEndSelected === 0) {
+      document.getElementById('monthid-' + monthSelected.id).classList.add('itemMonthsLineSelected');
+      this.monthStartSelected = monthSelected.id;
+
+    } else
+      // Si mois debut sectionné
+      if (this.monthStartSelected !== 0) {
+        // Deselectionne tout
+        if (this.monthStartSelected === monthSelected.id) {
+          this.removeAllSelectedMonths();
+        } else if (this.monthEndSelected !== 0) {
+
+          // Deselectionne tout sauf le mois de début
+          if (this.monthEndSelected === monthSelected.id) {
+            this.removeAllSelectedMonthsNotFirst();
+          } else if (monthSelected.id > this.monthStartSelected) {
+
+              if (monthSelected.id < this.monthEndSelected) {
+                this.removeAllSelectedMonthsNotFirst();
+              }
+
+              this.monthEndSelected = monthSelected.id;
+              this.selectMonthPlage();
+          } else {
+            this.monthStartSelected = monthSelected.id;
+            this.selectMonthPlage();
+          }
+        } else {
+          if (monthSelected.id > this.monthStartSelected) {
+            this.monthEndSelected = monthSelected.id;
+            this.selectMonthPlage();
+          }
+        }
       }
-    }
-
-    for (let index = 0; index < tabIndex.length; index++) {
-      this.tabEndMonth.splice(tabIndex[index], 1);
-    }
-
   }
 
-  MonthEndChangeValue(event) {
-    this.tabStartMonth = this.tabMonths.slice(0);
-    const tabIndex: number[] = new Array();
-    for (let index = 0; index < this.tabStartMonth.length; index++) {
-      if(index > event.currentTarget.selectedIndex  ) {
-        tabIndex.push(index);
-      }
-    }
+  selectMonthPlage() {
 
-    for (let index = 0; index < tabIndex.length; index++) {
-      this.tabStartMonth.splice(tabIndex[index], 1);
+    for (let index = this.monthStartSelected; index < this.monthEndSelected + 1; index++) {
+      document.getElementById('monthid-' + index).classList.add('itemMonthsLineSelected');
     }
   }
 
+  removeAllSelectedMonths() {
+    this.monthStartSelected = 0;
+    this.monthEndSelected = 0;
+    for (let index = 1; index < 13; index++) {
+      document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
+    }
+  }
+
+  removeAllSelectedMonthsNotFirst() {
+    this.monthEndSelected = 0;
+    for (let index = 1; index < 13; index++) {
+      if (index !== this.monthStartSelected) {
+        document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
+      }
+    }
+  }
 
   HouseChangeValue(event) {
   }
+
+
 
 }

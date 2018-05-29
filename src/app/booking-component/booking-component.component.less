@@ -12,6 +12,7 @@
     margin-top: 0%;
     border-radius: 10px;
     background-color:@background_color1;
+    font-size: 1.5rem;
     // filter: blur(9px);
 
     .headerAccount{
@@ -32,6 +33,35 @@
         margin-right: 20px;
         margin-top: 5px;
     }   
+
+    .itemMonthsLine{
+        height: 50px;
+        width: 100%;
+        text-align: center;
+        padding-top: 15px;
+        margin-right: 0.25%;
+        margin-left: 0.25%;
+        border-radius: 10px;
+        background-color: @background_color2;
+        transition: all 1s;
+    }
+
+    .itemMonthsLine:hover{
+        background-color: @background_color3;
+        transition: all 0.25s;
+    }
+
+    .itemMonthsLineSelected{
+        background-color: @background_color5;
+        transition: all 0.25s;
+        color:white;
+    }
+
+    .monthsLineContainer{
+        display: flex;
+        flex-direction: row;
+        flex:auto;
+    }
 
 }
 
