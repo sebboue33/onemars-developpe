@@ -7,6 +7,8 @@ import { House } from 'src/app/models/House';
 import { StarShip } from 'src/app/models/StarShip';
 import * as UserServices from 'src/app/services/UserServices';
 import * as BookingServices from 'src/app/services/BookingServices';
+import { EnumValues } from 'enum-values';
+import { Month } from './enums/Month';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class AppComponent {
   messageAlert = '';
   userIsAdmin = false;
   _opened: Boolean = false;
+// tabMonths: any [] =  EnumValues.getValues(Month);
 
   tabMonths: any [] = new Array({id: 1, value: 'Janvier'},
                                {id: 2, value: 'Février'},

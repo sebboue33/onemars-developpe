@@ -29,7 +29,7 @@ export class BookingComponentComponent implements OnInit {
   buttonVisible = false;
 
   @Input()
-  tabMonths: any[] = EnumValues.getValues(Month);
+  tabMonths: any[] ;
 
   @Output()
   updateBookingBoard = new EventEmitter();
