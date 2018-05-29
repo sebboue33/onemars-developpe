@@ -32,11 +32,25 @@
       <div>Selectionnez la maison pour votre séjour : </div>
       <br>
       <div class="housesContainer">
-        <div [attr.id]="'monthid-' + houseSelected.idHouse" class="itemHouse" (click)="selectHouse(houseSelected)" *ngFor='let houseSelected of tabHouses'>
+        <div [attr.id]="'houseid-' + houseSelected.idHouse" class="itemHouse" (click)="selectHouse(houseSelected)" *ngFor='let houseSelected of tabHouses'>
           <div class="titleHouse"> {{houseSelected.name}}</div>
           <div  [attr.id]="'imgHouse-' + houseSelected.idHouse"></div>          
         </div>
       </div>
+    </div>
+
+    <div *ngIf="buttonVisible" class="buttonBookingContainer">
+
+        <button (click)="cancelBooking()" class="bookingCancelButton" >
+            <span class="bookingIcon glyphicon glyphicon-remove "></span>
+            <div>Annuler</div>
+          </button>
+          
+        <button (click)="_validBooking()" class="bookingValidButton" >
+          <span class="bookingIcon glyphicon glyphicon-ok "></span>
+          <div>Valider</div>
+        </button>
+
     </div>
 
 

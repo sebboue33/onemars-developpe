@@ -22,7 +22,7 @@ export class AppComponent {
   bookingBoardVisible = false;
   title = 'OneMars Booking';
   activeUser = new User();
-  accessAuthorized = false;
+  accessAuthorized = true;
   messageAlert = '';
   userIsAdmin = false;
   _opened: Boolean = false;

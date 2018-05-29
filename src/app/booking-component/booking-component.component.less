@@ -17,7 +17,7 @@
 
 
     .containerDataBooking{
-        margin:5%;
+        margin:2%;
     }
 
     .headerAccount{
@@ -30,7 +30,7 @@
         display: flex;
         flex-direction: row;
         flex: auto;
-        margin-bottom: 5%;
+        margin-bottom: 0;
     }
 
     .iconHeader{
@@ -49,6 +49,7 @@
         border-radius: 10px;
         background-color: @background_color2;
         transition: all 1s;
+        cursor: pointer;
     }
 
     .itemMonthsLine:hover{
@@ -80,6 +81,7 @@
         background-color: @background_color2;
         transition: all 1s;
         display: flex;
+        cursor: pointer;
     }
 
     .itemHouse:hover{
@@ -144,7 +146,62 @@
         display: flex;
         flex-direction: row;
         flex:auto;
+        margin:1%;
     }
+}
+
+.bookingValidButton{
+    border: none;
+    width: 130px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color: @background_color5;
+    transition: background-color 0.5s;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+}
+
+.bookingValidButton:hover{
+    background-color: #067129;
+    transition: background-color 0.5s;
+}
+
+.bookingCancelButton{
+    border: none;
+    width: 130px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color: @background_color5;
+    transition: background-color 0.5s;
+    margin-right: 10px;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+}
+
+.bookingCancelButton:hover{
+    background-color: #950c10;
+    transition: background-color 0.5s;
+}
+
+.buttonBookingContainer{
+    margin-top: 30px;
+    float: right;
+    display: flex;
+}
+
+.bookingIcon{
+    font-weight: normal;
+    color:  @background_color1;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 

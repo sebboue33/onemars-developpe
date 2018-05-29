@@ -19,12 +19,14 @@ export class BookingComponentComponent implements OnInit {
   selectedHouse: House;
   monthStartSelected = 0;
   monthEndSelected = 0;
+  houseSelected = null;
   observablePeriode = new BehaviorSubject<number>(0);
   observableMonthStart = new BehaviorSubject<number>(0);
   observableMonthEnd = new BehaviorSubject<number>(0);
   labelStartPeriode = '';
   labelEndPeriode = '';
   houseVisible = false;
+  buttonVisible = false;
 
   @Input()
   tabMonths: any[] = EnumValues.getValues(Month);
@@ -124,6 +126,8 @@ export class BookingComponentComponent implements OnInit {
     for (let index = 1; index < 13; index++) {
       document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
     }
+
+    this.buttonVisible = false;
   }
 
   removeAllSelectedMonthsNotFirst() {
@@ -135,7 +139,23 @@ export class BookingComponentComponent implements OnInit {
     }
   }
 
-  HouseChangeValue(event) {
+  selectHouse(houseSelected) {
+
+    if (this.houseSelected  === null){
+      document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
+      this.houseSelected = houseSelected;
+      this.buttonVisible = true;
+    } else if (this.houseSelected === houseSelected ) {
+      document.getElementById('houseid-' + houseSelected.idHouse).classList.remove('itemHouseSelected');
+      this.houseSelected = null;
+      this.buttonVisible = false;
+    } else {
+      document.getElementById('houseid-' + this.houseSelected.idHouse).classList.remove('itemHouseSelected');
+      document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
+      this.houseSelected = houseSelected;
+      this.buttonVisible = true;
+    }
+
   }
 
 
