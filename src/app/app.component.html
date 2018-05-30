@@ -27,7 +27,7 @@
                 <app-account-component [userSelected]="activeUser"></app-account-component>
             </div>
             <div  *ngIf="myBookingVisible">
-              <app-booking-component></app-booking-component>
+              <app-booking-component [tabMonths]="tabMonths"></app-booking-component>
             </div>
             <div  *ngIf="contactVisible">
               <app-contact-component></app-contact-component>

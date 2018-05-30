@@ -1,17 +1,207 @@
 @import "../assets/globalColor.less";
 
-.contentContainer{
+.contentContainerBooking{
+
     animation: fadein 2s;
     -moz-animation: fadein 2s; /* Firefox */
     -webkit-animation: fadein 2s; /* Safari et Chrome */
     -o-animation: fadein 2s; /* Opera */
-
     margin: auto;
     width: 100%;
-    height: 100%;
-    padding-top: 11%;
-    border-radius: 30px;
-    background-color: @background_color1;
-    // filter: blur(9px);
+    height: 101%;
+    margin-top: 0%;
+    border-radius: 10px;
+    background-color:@background_color1;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+
+    .containerDataBooking{
+        margin:1%;
+    }
+
+    .headerAccount{
+        font-size: 2.5rem;
+        color: white;
+        background-color: #dc7747;
+        border-radius: 10px 10px 0 0;
+        height: 10%;
+        padding-top: 1%;
+        display: flex;
+        flex-direction: row;
+        flex: auto;
+        margin-bottom: 0;
+    }
+
+    .iconHeader{
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 5px;
+    }   
+
+    .itemMonthsLine{
+        height: 50px;
+        width: 100%;
+        text-align: center;
+        padding-top: 15px;
+        margin-right: 0.25%;
+        margin-left: 0.25%;
+        border-radius: 10px;
+        background-color: @background_color2;
+        transition: all 1s;
+        cursor: pointer;
+    }
+
+    .itemMonthsLine:hover{
+        background-color: @background_color3;
+        transition: all 0.25s;
+    }
+
+    .itemMonthsLineSelected{
+        background-color: @background_color5;
+        transition: all 0.25s;
+        color:white;
+    }
+
+    .monthsLineContainer{
+        display: flex;
+        flex-direction: row;
+        flex:auto;
+    }
+
+
+    .itemHouse{
+        height: 27rem;
+        width: 100%;
+        text-align: center;
+        padding-top: 15px;
+        margin-right: 0.25%;
+        margin-left: 0.25%;
+        border-radius: 10px;
+        background-color: @background_color2;
+        transition: all 1s;
+        display: flex;
+        cursor: pointer;
+    }
+
+    .itemHouse:hover{
+        background-color: @background_color3;
+        transition: all 0.25s;
+    }
+
+    .itemHouseSelected{
+        background-color: @background_color5;
+        transition: all 0.25s;
+        color:white;
+    }
+
+    .containerPeriodeLabel{
+        display:flex;
+        flex-direction: row;
+        flex:auto;
+    }
+
+    .labelPeriode{
+        color:@font_color3;
+        font-weight: bold;
+    }
+
+    #imgHouse-HA{
+        background-image: url("../assets/maisonHA.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    #imgHouse-HB{
+        background-image: url("../assets/maisonHB.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    #imgHouse-HC{
+        background-image: url("../assets/maisonHC.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 10px;
+        width: 50%;
+        margin: -8px;
+    }
+
+    .titleHouse{
+        width: 50%;
+        padding-top: 11rem;
+        font-weight: bold;
+    }
+
+    .housesContainer{
+        display: flex;
+        flex-direction: row;
+        flex:auto;
+        margin:1%;
+    }
+}
+
+.bookingValidButton{
+    border: none;
+    width: 130px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color: @background_color5;
+    transition: background-color 0.5s;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
 
 }
+
+.bookingValidButton:hover{
+    background-color: #067129;
+    transition: background-color 0.5s;
+}
+
+.bookingCancelButton{
+    border: none;
+    width: 130px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color: @background_color5;
+    transition: background-color 0.5s;
+    margin-right: 10px;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+}
+
+.bookingCancelButton:hover{
+    background-color: #950c10;
+    transition: background-color 0.5s;
+}
+
+.buttonBookingContainer{
+    margin-top: 30px;
+    float: right;
+    display: flex;
+}
+
+.bookingIcon{
+    font-weight: normal;
+    color:  @background_color1;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+

@@ -1,4 +1,58 @@
-<div class="contentContainer">
+<div class="contentContainerBooking">
 
-BOOKING
+  <div class="headerAccount">
+    <span class="iconHeader glyphicon glyphicon-bed "></span>
+    <div class=labelHeader>Mes réservations</div>
+
   </div>
+  <div class="containerDataBooking">
+
+    <div class="containerPeriodeLabel">
+      <div>Selectionnez la periode pour votre séjour : </div>
+      <div class="labelPeriode" *ngIf="labelEndPeriode!=''">
+        de {{labelStartPeriode}} à {{labelEndPeriode}}
+      </div>
+      <div  class="labelPeriode" *ngIf="labelStartPeriode!='' && labelEndPeriode==''">
+        de début a fin {{labelStartPeriode}}
+      </div>
+    </div>
+    <br>
+    <div class="monthsLineContainer">
+      <div [attr.id]="'monthid-' + monthSelected.id" class="itemMonthsLine" (click)="selectMonth(monthSelected)" *ngFor='let monthSelected of tabMonths'>
+        {{monthSelected.value}}
+      </div>
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+
+    <div *ngIf="houseVisible" class="houseContainer">
+      <div>Selectionnez la maison pour votre séjour : </div>
+      <br>
+      <div class="housesContainer">
+        <div [attr.id]="'houseid-' + houseSelected.idHouse" class="itemHouse" (click)="selectHouse(houseSelected)" *ngFor='let houseSelected of tabHouses'>
+          <div class="titleHouse"> {{houseSelected.name}}</div>
+          <div  [attr.id]="'imgHouse-' + houseSelected.idHouse"></div>          
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="buttonVisible" class="buttonBookingContainer">
+
+        <button (click)="cancelBooking()" class="bookingCancelButton" >
+            <span class="bookingIcon glyphicon glyphicon-remove "></span>
+            <div>Annuler</div>
+          </button>
+          
+        <button (click)="_validBooking()" class="bookingValidButton" >
+          <span class="bookingIcon glyphicon glyphicon-ok "></span>
+          <div>Valider</div>
+        </button>
+
+    </div>
+
+
+  </div>
+</div>
