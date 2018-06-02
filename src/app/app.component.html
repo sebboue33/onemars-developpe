@@ -17,7 +17,7 @@
               [admin]="userIsAdmin"    
               (deconnectUserEvent)="accessAuthorized=false"
               (showUserComponentEvent)="_maskAllScreen($event); myAccountVisible=true"
-              (showBookingComponentEvent)="_maskAllScreen($event); myBookingVisible=true"
+              (showBookingComponentEvent)="_maskAllScreen($event); myBookingVisible=true; testFunction();"
               (showContactComponentEvent)="_maskAllScreen($event); contactVisible=true"
               (showBookingBoardComponentEvent)="_maskAllScreen($event); bookingBoardVisible=true"></app-menu-component>
               
@@ -27,7 +27,7 @@
                 <app-account-component [userSelected]="activeUser"></app-account-component>
             </div>
             <div  *ngIf="myBookingVisible">
-              <app-booking-component [tabMonths]="tabMonths"></app-booking-component>
+              <app-booking-component [observableTest]="observableTest" [tabMonths]="tabMonths"></app-booking-component>
             </div>
             <div  *ngIf="contactVisible">
               <app-contact-component></app-contact-component>

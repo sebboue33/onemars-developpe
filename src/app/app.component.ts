@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import icons from 'glyphicons';
 import { User } from 'src/app/models/User';
 import { Category } from 'src/app/enums/Category';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { House } from 'src/app/models/House';
 import { StarShip } from 'src/app/models/StarShip';
 import * as UserServices from 'src/app/services/UserServices';
@@ -43,6 +43,8 @@ export class AppComponent {
                                {id: 11, value: 'Novembre'},
                                {id: 12, value: 'Décembre'});
 
+observableTest = new Subject<number>();
+
   ngOnInit() {
     UserServices.initUsers();
     BookingServices.initRessources();
@@ -73,5 +75,9 @@ export class AppComponent {
    this.myBookingVisible = false;
    this.contactVisible = false;
    this.bookingBoardVisible = false;
+  }
+
+  testFunction(){
+    this.observableTest.next(22222);
   }
 }

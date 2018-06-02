@@ -6,7 +6,7 @@ import { EventEmitter } from 'events';
 import * as BookingServices from 'src/app/services/BookingServices';
 import { Month } from '../enums/Month';
 import { EnumValues } from 'enum-values';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-booking-component',
@@ -17,12 +17,11 @@ export class BookingComponentComponent implements OnInit {
 
   tabHouses: House[] = new Array();
   selectedHouse: House;
-  monthStartSelected = 0;
-  monthEndSelected = 0;
+  monthStartSelectedId = 0;
+  monthEndSelectedId = 0;
+  monthSelectedId = 0;
   houseSelected = null;
-  observablePeriode = new BehaviorSubject<number>(0);
-  observableMonthStart = new BehaviorSubject<number>(0);
-  observableMonthEnd = new BehaviorSubject<number>(0);
+  observableMonthSelectedId = new Subject<number>();
   labelStartPeriode = '';
   labelEndPeriode = '';
   houseVisible = false;
@@ -30,6 +29,8 @@ export class BookingComponentComponent implements OnInit {
 
   @Input()
   tabMonths: any[] ;
+  @Input()
+  observableTest: Subject<number>;
 
   @Output()
   updateBookingBoard = new EventEmitter();
@@ -48,18 +49,22 @@ export class BookingComponentComponent implements OnInit {
       this.tabHouses.push(element);
     });
 
-    // Evenement sur choix d'un mois
-    this.observablePeriode.subscribe(item => {
-      this.houseVisible = this.monthStartSelected !== 0;
+    this.observableTest.subscribe(item => {
+      alert(item);
+    });
 
-      if (this.monthStartSelected !== 0) {
-        this.labelStartPeriode = this.tabMonths[this.monthStartSelected - 1].value;
+    // Evenement sur choix d'un mois
+    this.observableMonthSelectedId.subscribe(item => {
+      this.houseVisible = this.monthStartSelectedId !== 0;
+
+      if (this.monthStartSelectedId !== 0) {
+        this.labelStartPeriode = this.tabMonths[this.monthStartSelectedId - 1].value;
       } else {
         this.labelStartPeriode = '';
       }
 
-      if (this.monthEndSelected !== 0) {
-        this.labelEndPeriode = this.tabMonths[this.monthEndSelected - 1].value;
+      if (this.monthEndSelectedId !== 0) {
+        this.labelEndPeriode = this.tabMonths[this.monthEndSelectedId - 1].value;
       } else {
         this.labelEndPeriode = '';
       }
@@ -73,56 +78,58 @@ export class BookingComponentComponent implements OnInit {
   }
 
 
-  selectMonth(monthSelected) {
+  selectMonth(month) {
+
+this.monthSelectedId = month.id;
 
     // Si aucun mois selectionné
-    if (this.monthStartSelected === 0 && this.monthEndSelected === 0) {
-      document.getElementById('monthid-' + monthSelected.id).classList.add('itemMonthsLineSelected');
-      this.monthStartSelected = monthSelected.id;
+    if (this.monthStartSelectedId === 0 && this.monthEndSelectedId === 0) {
+      document.getElementById('monthid-' + this.monthSelectedId ).classList.add('itemMonthsLineSelected');
+      this.monthStartSelectedId = this.monthSelectedId;
     } else
       // Si mois debut sectionné
-      if (this.monthStartSelected !== 0) {
+      if (this.monthStartSelectedId !== 0) {
         // Deselectionne tout
-        if (this.monthStartSelected === monthSelected.id) {
+        if (this.monthStartSelectedId === this.monthSelectedId) {
           this.removeAllSelectedMonths();
-        } else if (this.monthEndSelected !== 0) {
+        } else if (this.monthEndSelectedId !== 0) {
 
           // Deselectionne tout sauf le mois de début
-          if (this.monthEndSelected === monthSelected.id) {
+          if (this.monthEndSelectedId === this.monthSelectedId) {
             this.removeAllSelectedMonthsNotFirst();
-          } else if (monthSelected.id > this.monthStartSelected) {
+          } else if (this.monthSelectedId > this.monthStartSelectedId) {
 
-            if (monthSelected.id < this.monthEndSelected) {
+            if (this.monthSelectedId < this.monthEndSelectedId) {
               this.removeAllSelectedMonthsNotFirst();
             }
 
-            this.monthEndSelected = monthSelected.id;
+            this.monthEndSelectedId = this.monthSelectedId;
             this.selectMonthPlage();
           } else {
-            this.monthStartSelected = monthSelected.id;
+            this.monthStartSelectedId = this.monthSelectedId;
             this.selectMonthPlage();
           }
         } else {
-          if (monthSelected.id > this.monthStartSelected) {
-            this.monthEndSelected = monthSelected.id;
+          if (this.monthSelectedId > this.monthStartSelectedId) {
+            this.monthEndSelectedId = this.monthSelectedId;
             this.selectMonthPlage();
           }
         }
       }
 
-    this.observablePeriode.next(monthSelected);
+      this.observableMonthSelectedId.next(this.monthSelectedId);
   }
 
   selectMonthPlage() {
 
-    for (let index = this.monthStartSelected; index < this.monthEndSelected + 1; index++) {
+    for (let index = this.monthStartSelectedId; index < this.monthEndSelectedId + 1; index++) {
       document.getElementById('monthid-' + index).classList.add('itemMonthsLineSelected');
     }
   }
 
   removeAllSelectedMonths() {
-    this.monthStartSelected = 0;
-    this.monthEndSelected = 0;
+    this.monthStartSelectedId = 0;
+    this.monthEndSelectedId = 0;
     for (let index = 1; index < 13; index++) {
       document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
     }
@@ -131,9 +138,9 @@ export class BookingComponentComponent implements OnInit {
   }
 
   removeAllSelectedMonthsNotFirst() {
-    this.monthEndSelected = 0;
+    this.monthEndSelectedId = 0;
     for (let index = 1; index < 13; index++) {
-      if (index !== this.monthStartSelected) {
+      if (index !== this.monthStartSelectedId) {
         document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
       }
     }
