@@ -6,6 +6,7 @@ import { Category } from '../enums/Category';
 const user = new User();
 const admin = new User();
 const mapUsers = new Map<string, User>();
+const activeUser = new User();
 
 export function createUSer(userToCreate: User ) {
 
@@ -46,6 +47,16 @@ export function initUsers() {
       } else if ($event.password !== mapUsers.get($event.login).password){
         messageAlert = 'Mot de passe invalide pour cet utilisateur !';
       }
+
+      // Si utilisateur connu on initialise l'utilisateur courant.
+      if (messageAlert === '') {
+        this.activeUser = this.getUserInfo($event.login);
+      }
+
       return messageAlert;
 
+  }
+
+  export function getActiveUser() {
+    return this.activeUser;
   }

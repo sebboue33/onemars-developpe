@@ -63,7 +63,7 @@ observableTest = new Subject<number>();
 
     if (this.messageAlert === '') {
       this.accessAuthorized = true;
-        this.activeUser = UserServices.getUserInfo($event.login);
+        this.activeUser = UserServices.getActiveUser();
         this.userIsAdmin = this.activeUser.category === Category.ADMIN;
         this._opened = true;
     }

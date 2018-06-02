@@ -4,9 +4,11 @@ import { House } from '../models/House';
 import { StarShip } from '../models/StarShip';
 import { EventEmitter } from 'events';
 import * as BookingServices from 'src/app/services/BookingServices';
+import * as UserServices from 'src/app/services/UserServices';
 import { Month } from '../enums/Month';
 import { EnumValues } from 'enum-values';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Booking } from '../models/Booking';
 
 @Component({
   selector: 'app-booking-component',
@@ -28,16 +30,16 @@ export class BookingComponentComponent implements OnInit {
   buttonVisible = false;
 
   @Input()
-  tabMonths: any[] ;
+  tabMonths: any[];
   @Input()
   observableTest: Subject<number>;
 
   @Output()
-  updateBookingBoard = new EventEmitter();
+  validBookingEvent = new EventEmitter();
 
 
   _showUserComponent() {
-    this.updateBookingBoard.emit(null);
+
   }
 
 
@@ -50,7 +52,7 @@ export class BookingComponentComponent implements OnInit {
     });
 
     this.observableTest.subscribe(item => {
-      alert(item);
+      console.log(item);
     });
 
     // Evenement sur choix d'un mois
@@ -73,18 +75,25 @@ export class BookingComponentComponent implements OnInit {
 
   }
 
+  /**
+   * 
+   * @param event Methode lors de la selection d'une maison.
+   */
   updateSelectedHouse(event: House): void {
     this.selectedHouse = event;
   }
 
-
+/**
+ * Methode lors de la selection d'un mois.
+ * @param month 
+ */
   selectMonth(month) {
 
-this.monthSelectedId = month.id;
+    this.monthSelectedId = month.id;
 
     // Si aucun mois selectionné
     if (this.monthStartSelectedId === 0 && this.monthEndSelectedId === 0) {
-      document.getElementById('monthid-' + this.monthSelectedId ).classList.add('itemMonthsLineSelected');
+      document.getElementById('monthid-' + this.monthSelectedId).classList.add('itemMonthsLineSelected');
       this.monthStartSelectedId = this.monthSelectedId;
     } else
       // Si mois debut sectionné
@@ -117,9 +126,12 @@ this.monthSelectedId = month.id;
         }
       }
 
-      this.observableMonthSelectedId.next(this.monthSelectedId);
+    this.observableMonthSelectedId.next(this.monthSelectedId);
   }
 
+  /**
+   * Selection d'une plage entre deux mois.
+   */
   selectMonthPlage() {
 
     for (let index = this.monthStartSelectedId; index < this.monthEndSelectedId + 1; index++) {
@@ -127,6 +139,9 @@ this.monthSelectedId = month.id;
     }
   }
 
+  /**
+   * Deselectionne tous les mois.
+   */
   removeAllSelectedMonths() {
     this.monthStartSelectedId = 0;
     this.monthEndSelectedId = 0;
@@ -137,6 +152,9 @@ this.monthSelectedId = month.id;
     this.buttonVisible = false;
   }
 
+  /**
+   * Deselectionne tous les mois sauf le mois de debut.
+   */
   removeAllSelectedMonthsNotFirst() {
     this.monthEndSelectedId = 0;
     for (let index = 1; index < 13; index++) {
@@ -146,13 +164,17 @@ this.monthSelectedId = month.id;
     }
   }
 
+  /**
+   * Selectionne une maison.
+   * @param houseSelected 
+   */
   selectHouse(houseSelected) {
 
-    if (this.houseSelected  === null){
+    if (this.houseSelected === null) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
       this.houseSelected = houseSelected;
       this.buttonVisible = true;
-    } else if (this.houseSelected === houseSelected ) {
+    } else if (this.houseSelected === houseSelected) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.remove('itemHouseSelected');
       this.houseSelected = null;
       this.buttonVisible = false;
@@ -162,6 +184,32 @@ this.monthSelectedId = month.id;
       this.houseSelected = houseSelected;
       this.buttonVisible = true;
     }
+
+  }
+
+  /**
+   * Validation de la réservation
+   */
+  validBooking() {
+    const newBooking: Booking = new Booking();
+
+    // ajout des mois et de la maison
+    newBooking.startMonth = this.tabMonths[this.monthStartSelectedId];
+    newBooking.endMonth = this.tabMonths[this.monthEndSelectedId];
+    newBooking.idHouse = this.houseSelected.idHouse;
+    newBooking.idUser = UserServices.getActiveUser().idUser;
+
+    var codeRet = BookingServices.createBooking(newBooking);
+
+    alert(codeRet);
+
+  }
+
+
+   /**
+   * Annulation de la réservation en cours de saisie
+   */
+  cancelBooking() {
 
   }
 

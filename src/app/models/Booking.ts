@@ -16,9 +16,8 @@ export class Booking {
     private _idBooking: string;
     private _startMonth: string;
     private _endMonth: string;
-    private _house: House;
-    private _starShip: StarShip;
-
+    private _idHouse: string;
+    private _idStarShip: string;
 
     /**
      * Getter idUser
@@ -52,21 +51,7 @@ export class Booking {
         return this._endMonth;
     }
 
-    /**
-     * Getter house
-     * @return {House}
-     */
-    public get house(): House {
-        return this._house;
-    }
 
-    /**
-     * Getter starShip
-     * @return {StarShip}
-     */
-    public get starShip(): StarShip {
-        return this._starShip;
-    }
 
     /**
      * Setter idUser
@@ -100,22 +85,38 @@ export class Booking {
         this._endMonth = value;
     }
 
-    /**
-     * Setter house
-     * @param {House} value
+ 
+     /**
+     * Setter idStarShip
+     * @param {string} value
      */
-    public set house(value: House) {
-        this._house = value;
+    public set idStarShip(value: string) {
+        this._idStarShip = value;
     }
 
-    /**
-     * Setter starShip
-     * @param {StarShip} value
+     /**
+     * Getter idStarShip
+     * @return {string}
      */
-    public set starShip(value: StarShip) {
-        this._starShip = value;
+    public get idStarShip(): string {
+        return this._idStarShip;
+    }
+ 
+     /**
+     * Setter idHouse
+     * @param {string} value
+     */
+    public set idHouse(value: string) {
+        this._idHouse = value;
     }
 
+     /**
+     * Getter idHouse
+     * @return {string}
+     */
+    public get idHouse(): string {
+        return this._idHouse;
+    }
 
 
 }
