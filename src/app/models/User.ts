@@ -10,7 +10,24 @@ import { Category } from "../enums/Category";
     private _login: string;
     private _category: Category;
     private _password: string;
+    private _idUser: string;
 
+
+    /**
+     * Getter idUser
+     * @return {idUser}
+     */
+	 get idUser(): string {
+		return this._idUser;
+	}
+
+    /**
+     * Setter idUser
+     * @param {idUser} value
+     */
+	 set idUser(value: string) {
+		this._idUser = value;
+	}
     /**
      * Getter category
      * @return {Category}

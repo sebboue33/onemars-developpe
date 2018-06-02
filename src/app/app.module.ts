@@ -8,6 +8,7 @@ import {
   MatCardModule
 } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatTableModule } from '@angular/material';
 import { SidebarModule } from 'ng-sidebar';
 
 
@@ -32,7 +33,7 @@ import { BookingBoardComponentComponent } from './booking-board-component/bookin
     ContactComponentComponent,
     AdminComponentComponent,
     LoginComponentComponent,
-    BookingBoardComponentComponent
+    BookingBoardComponentComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +45,7 @@ import { BookingBoardComponentComponent } from './booking-board-component/bookin
     MatCardModule,
     MatSidenavModule,
     SidebarModule.forRoot(),
+    MatTableModule
 
   ],
   providers: [],

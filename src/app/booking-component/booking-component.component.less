@@ -18,6 +18,17 @@
 
     .containerDataBooking{
         margin:1%;
+        animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari et Chrome */
+    -o-animation: fadein 2s; /* Opera */
+    }
+    .containerEditorBooking{
+        margin:1%;
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+     -webkit-animation: fadein 2s; /* Safari et Chrome */
+    -o-animation: fadein 2s; /* Opera */
     }
 
     .headerAccount{
@@ -93,6 +104,11 @@
         background-color: @background_color5;
         transition: all 0.25s;
         color:white;
+    }
+
+    .itemHouseSelected:hover{
+        background-color: @background_color7;
+        transition: all 0.25s;
     }
 
     .containerPeriodeLabel{
@@ -182,11 +198,31 @@
     display: flex;
     flex-direction: row;
     cursor: pointer;
-
+    
 }
 
 .bookingCancelButton:hover{
     background-color: #950c10;
+    transition: background-color 0.5s;
+}
+
+.bookingAddButton{
+    border: none;
+    width: 210px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color: @background_color5;
+    transition: background-color 0.5s;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+}
+
+.bookingAddButton:hover{
+    background-color: #067129;
     transition: background-color 0.5s;
 }
 
@@ -201,6 +237,33 @@
     color:  @background_color1;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+table.mat-elevation-z8.mat-table {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: none;
+    font-size:1.5rem;
+}
+
+th.mat-header-cell.cdk-column-startmonth.mat-column-startmonth {
+    background-color: @background_color4;
+    color:white;
+}
+
+th.mat-header-cell.cdk-column-endmonth.mat-column-endmonth {
+    background-color: @background_color4;
+    color:white;
+}
+
+th.mat-header-cell.cdk-column-house.mat-column-house {
+    background-color: @background_color4;
+    color:white;
+}
+
+th.mat-header-cell.cdk-column-starship.mat-column-starship {
+    background-color: @background_color4;
+    color:white;
 }
 
 

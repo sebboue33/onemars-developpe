@@ -19,15 +19,19 @@ export class BookingComponentComponent implements OnInit {
 
   tabHouses: House[] = new Array();
   selectedHouse: House;
-  monthStartSelectedId = 0;
-  monthEndSelectedId = 0;
-  monthSelectedId = 0;
+  monthStartSelectedId = -1;
+  monthEndSelectedId = -1;
+  monthSelectedId = -1;
   houseSelected = null;
   observableMonthSelectedId = new Subject<number>();
   labelStartPeriode = '';
   labelEndPeriode = '';
   houseVisible = false;
-  buttonVisible = false;
+  buttonVisible = true;
+  editorBookingVisible = false;
+  mapBookingsBySuser = new Map<string, Booking>();
+  allItemsSelected = false;
+  displayedColumns = ['startmonth', 'endmonth', 'house', 'starship'];
 
   @Input()
   tabMonths: any[];
@@ -51,22 +55,28 @@ export class BookingComponentComponent implements OnInit {
       this.tabHouses.push(element);
     });
 
+    this.mapBookingsBySuser = BookingServices.getBookingsByUser(UserServices.getActiveUser().idUser);
+
     this.observableTest.subscribe(item => {
       console.log(item);
     });
 
     // Evenement sur choix d'un mois
     this.observableMonthSelectedId.subscribe(item => {
-      this.houseVisible = this.monthStartSelectedId !== 0;
+      this.houseVisible = this.monthStartSelectedId !== -1;
 
-      if (this.monthStartSelectedId !== 0) {
-        this.labelStartPeriode = this.tabMonths[this.monthStartSelectedId - 1].value;
+
+      const indexMax = this.monthEndSelectedId === -1 ? 0 : this.monthEndSelectedId;
+      const indexMin = this.monthStartSelectedId === -1 ? 0 : this.monthStartSelectedId;
+
+      if (this.monthStartSelectedId !== -1) {
+        this.labelStartPeriode = this.tabMonths[indexMin - 1].value;
       } else {
         this.labelStartPeriode = '';
       }
 
-      if (this.monthEndSelectedId !== 0) {
-        this.labelEndPeriode = this.tabMonths[this.monthEndSelectedId - 1].value;
+      if (this.monthEndSelectedId !== -1) {
+        this.labelEndPeriode = this.tabMonths[indexMax - 1].value;
       } else {
         this.labelEndPeriode = '';
       }
@@ -83,25 +93,25 @@ export class BookingComponentComponent implements OnInit {
     this.selectedHouse = event;
   }
 
-/**
- * Methode lors de la selection d'un mois.
- * @param month 
- */
+  /**
+   * Methode lors de la selection d'un mois.
+   * @param month 
+   */
   selectMonth(month) {
 
     this.monthSelectedId = month.id;
 
     // Si aucun mois selectionné
-    if (this.monthStartSelectedId === 0 && this.monthEndSelectedId === 0) {
+    if (this.monthStartSelectedId === -1 && this.monthEndSelectedId === -1) {
       document.getElementById('monthid-' + this.monthSelectedId).classList.add('itemMonthsLineSelected');
       this.monthStartSelectedId = this.monthSelectedId;
     } else
       // Si mois debut sectionné
-      if (this.monthStartSelectedId !== 0) {
+      if (this.monthStartSelectedId !== -1) {
         // Deselectionne tout
         if (this.monthStartSelectedId === this.monthSelectedId) {
           this.removeAllSelectedMonths();
-        } else if (this.monthEndSelectedId !== 0) {
+        } else if (this.monthEndSelectedId !== -1) {
 
           // Deselectionne tout sauf le mois de début
           if (this.monthEndSelectedId === this.monthSelectedId) {
@@ -130,11 +140,14 @@ export class BookingComponentComponent implements OnInit {
   }
 
   /**
-   * Selection d'une plage entre deux mois.
+   * Selection d'une plage entre deux mois. 
    */
   selectMonthPlage() {
 
-    for (let index = this.monthStartSelectedId; index < this.monthEndSelectedId + 1; index++) {
+    const indexMax = this.monthEndSelectedId === -1 ? 0 : this.monthEndSelectedId;
+    const indexMin = this.monthStartSelectedId === -1 ? 0 : this.monthStartSelectedId;
+
+    for ( let index = indexMin; index < indexMax + 1; index++) {
       document.getElementById('monthid-' + index).classList.add('itemMonthsLineSelected');
     }
   }
@@ -143,20 +156,19 @@ export class BookingComponentComponent implements OnInit {
    * Deselectionne tous les mois.
    */
   removeAllSelectedMonths() {
-    this.monthStartSelectedId = 0;
-    this.monthEndSelectedId = 0;
+    this.monthStartSelectedId = -1;
+    this.monthEndSelectedId = -1;
     for (let index = 1; index < 13; index++) {
       document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
     }
 
-    this.buttonVisible = false;
   }
 
   /**
    * Deselectionne tous les mois sauf le mois de debut.
    */
   removeAllSelectedMonthsNotFirst() {
-    this.monthEndSelectedId = 0;
+    this.monthEndSelectedId = -1;
     for (let index = 1; index < 13; index++) {
       if (index !== this.monthStartSelectedId) {
         document.getElementById('monthid-' + index).classList.remove('itemMonthsLineSelected');
@@ -173,16 +185,16 @@ export class BookingComponentComponent implements OnInit {
     if (this.houseSelected === null) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
       this.houseSelected = houseSelected;
-      this.buttonVisible = true;
+ 
     } else if (this.houseSelected === houseSelected) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.remove('itemHouseSelected');
       this.houseSelected = null;
-      this.buttonVisible = false;
+
     } else {
       document.getElementById('houseid-' + this.houseSelected.idHouse).classList.remove('itemHouseSelected');
       document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
       this.houseSelected = houseSelected;
-      this.buttonVisible = true;
+
     }
 
   }
@@ -194,25 +206,67 @@ export class BookingComponentComponent implements OnInit {
     const newBooking: Booking = new Booking();
 
     // ajout des mois et de la maison
-    newBooking.startMonth = this.tabMonths[this.monthStartSelectedId];
-    newBooking.endMonth = this.tabMonths[this.monthEndSelectedId];
+    newBooking.startMonth = this.tabMonths[this.monthStartSelectedId - 1];
+    if(this.monthEndSelectedId === -1){
+      newBooking.endMonth = this.tabMonths[this.monthStartSelectedId - 1];
+    }else{
+      newBooking.endMonth = this.tabMonths[this.monthEndSelectedId - 1];
+    }
+    
     newBooking.idHouse = this.houseSelected.idHouse;
     newBooking.idUser = UserServices.getActiveUser().idUser;
 
     var codeRet = BookingServices.createBooking(newBooking);
 
-    alert(codeRet);
+    this.mapBookingsBySuser = BookingServices.getBookingsByUser(UserServices.getActiveUser().idUser);
+
+    this.reinit();
 
   }
 
-
-   /**
-   * Annulation de la réservation en cours de saisie
-   */
+  reinit() {
+    this.editorBookingVisible = false;
+    this.monthStartSelectedId = -1;
+    this.monthEndSelectedId = -1;
+    this.monthSelectedId = -1;
+    this.houseVisible = false;
+  }
+  /**
+  * Annulation de la réservation en cours de saisie
+  */
   cancelBooking() {
+    this.reinit();
+  }
+
+  addBooking() {
+    this.editorBookingVisible = true;
+  }
+
+  selectAll() {
 
   }
 
+  selectBooking() {
 
+  }
 
+  getMapBookingsBySuser() {
+    return Array.from(this.mapBookingsBySuser.values());
+  }
+
+  getStartMonth(element) {
+    return element.startMonth.value;
+  }
+
+  getEndMonth(element) {
+    return element.endMonth.value;
+  }
+  getHouse(element) {
+    return BookingServices.getHouseById(element.idHouse).name;
+  }
+  getStarShip(element) {
+    if (element.idStarShip != null) {
+      return BookingServices.getStarShipById(element.idStarShip).name;
+    }
+  }
 }

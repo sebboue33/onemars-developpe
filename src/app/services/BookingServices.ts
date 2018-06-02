@@ -2,6 +2,7 @@ import { ROUTES } from './Router';
 import { House } from '../models/House';
 import { StarShip } from '../models/StarShip';
 import { Booking } from '../models/Booking';
+import * as UserServices from '../services/UserServices';
 
 const mapBooking = new Map<string, Booking>();
 const mapHouses = new Map<string, House>();
@@ -39,8 +40,16 @@ export function createBooking(bookingToCreate: Booking) {
         if (bookingTemp.idHouse === bookingToCreate.idHouse) {
 
             // Test la date de début et de fin
-            const startMonthOverLap = dateIsOverLap(bookingTemp, bookingToCreate.startMonth);
-            const endMonthOverLap = dateIsOverLap(bookingTemp, bookingToCreate.endMonth);
+
+            let startMonthOverLap = false;
+            let endMonthOverLap = false;
+
+            if (bookingTemp.startMonth === bookingTemp.endMonth  ){
+                startMonthOverLap = datesAreOverLap(bookingTemp, bookingToCreate.startMonth, bookingToCreate.endMonth);
+            } else {
+                 startMonthOverLap = dateIsOverLap(bookingTemp, bookingToCreate.startMonth);
+                 endMonthOverLap = dateIsOverLap(bookingTemp, bookingToCreate.endMonth);
+            }
 
             // Regarde si la resa deja ^resente a un vaisseau
             if (startMonthOverLap || endMonthOverLap) {
@@ -87,7 +96,7 @@ export function createBooking(bookingToCreate: Booking) {
      */
     function checkStarShipAvailable(bookingTemp) {
 
-        if (bookingTemp.idStarShip !== null) {
+        if (bookingTemp.idStarShip !== undefined && bookingTemp.idStarShip !== null) {
             const starshipTemp = mapStarships.get(bookingTemp.idStarShip);
 
             if (starshipTemp !== null && starshipTemp.idStarShip === STARSHIP_ID_XJ45) {
@@ -107,7 +116,13 @@ export function createBooking(bookingToCreate: Booking) {
  */
 function dateIsOverLap(dateBooking, dateBookingToCreate) {
 
-    return dateBookingToCreate.id >= dateBooking.startMonth.id && dateBookingToCreate.id <= dateBooking.endMonth.id;
+        return dateBookingToCreate.id >= dateBooking.startMonth.id && dateBookingToCreate.id <= dateBooking.endMonth.id;
+
+}
+function datesAreOverLap(dateBooking, dateStartBookingToCreate,dateEndBookingToCreate) {
+
+        return dateStartBookingToCreate.id <= dateBooking.startMonth.id && dateEndBookingToCreate.id >= dateBooking.endMonth.id;
+   
 }
 
 export function updateBooking(booking) {
@@ -205,4 +220,27 @@ function IDGenerator() {
     }
 
 
+}
+
+export function getBookingsByUser(userId){
+
+    let mapBookingByUser = new Map<string, Booking>();
+
+    // Parcours la map des reservations
+    for (const keyBooking of Array.from(mapBooking.keys())) {
+
+        if (mapBooking.get(keyBooking).idUser === userId){
+            mapBookingByUser.set(keyBooking, mapBooking.get(keyBooking) );
+        }
+    }
+
+    return mapBookingByUser;
+}
+
+export function getHouseById(idHouse) {
+    return mapHouses.get(idHouse);
+}
+
+export function getStarShipById(idStarShip) {
+    return mapStarships.get(idStarShip);
 }

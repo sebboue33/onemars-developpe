@@ -5,14 +5,68 @@
     <div class=labelHeader>Mes réservations</div>
 
   </div>
-  <div class="containerDataBooking">
+
+  <!-- Panel de recap des reservations -->
+  <div *ngIf="!editorBookingVisible" class="containerDataBooking">
+
+    <div>Liste de vos réservations : </div>
+
+    <br>
+    
+    <table  mat-table [dataSource]="getMapBookingsBySuser()" class="mat-elevation-z8">
+       <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="startmonth">
+        <th mat-header-cell *matHeaderCellDef> Mois de début </th>
+        <td mat-cell *matCellDef="let element"> {{getStartMonth(element)}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="endmonth">
+        <th mat-header-cell *matHeaderCellDef> Mois de fin </th>
+        <td mat-cell *matCellDef="let element"> {{getEndMonth(element)}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="house">
+        <th mat-header-cell *matHeaderCellDef> Maison </th>
+        <td mat-cell *matCellDef="let element"> {{getHouse(element)}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="starship">
+        <th mat-header-cell *matHeaderCellDef> Vaisseau </th>
+        <td mat-cell *matCellDef="let element"> {{getStarShip(element)}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <br>
+    <br>
+
+    <div class="buttonBookingContainer">
+
+      <button (click)="addBooking()" class="bookingAddButton">
+        <span class="bookingIcon glyphicon glyphicon-plus-sign "></span>
+        <div>Nouvelle réservation</div>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Panel d'ajout d'une réservation -->
+  <div *ngIf="editorBookingVisible" class="containerEditorBooking">
 
     <div class="containerPeriodeLabel">
       <div>Selectionnez la periode pour votre séjour : </div>
       <div class="labelPeriode" *ngIf="labelEndPeriode!=''">
         de {{labelStartPeriode}} à {{labelEndPeriode}}
       </div>
-      <div  class="labelPeriode" *ngIf="labelStartPeriode!='' && labelEndPeriode==''">
+      <div class="labelPeriode" *ngIf="labelStartPeriode!='' && labelEndPeriode==''">
         de début a fin {{labelStartPeriode}}
       </div>
     </div>
@@ -23,33 +77,30 @@
       </div>
     </div>
 
-
-    <br>
-    <br>
     <br>
 
-    <div *ngIf="houseVisible" class="houseContainer">
+    <div [hidden]="!houseVisible" class="houseContainer">
       <div>Selectionnez la maison pour votre séjour : </div>
       <br>
       <div class="housesContainer">
         <div [attr.id]="'houseid-' + houseSelected.idHouse" class="itemHouse" (click)="selectHouse(houseSelected)" *ngFor='let houseSelected of tabHouses'>
           <div class="titleHouse"> {{houseSelected.name}}</div>
-          <div  [attr.id]="'imgHouse-' + houseSelected.idHouse"></div>          
+          <div [attr.id]="'imgHouse-' + houseSelected.idHouse"></div>
         </div>
       </div>
     </div>
 
     <div *ngIf="buttonVisible" class="buttonBookingContainer">
 
-        <button (click)="cancelBooking()" class="bookingCancelButton" >
-            <span class="bookingIcon glyphicon glyphicon-remove "></span>
-            <div>Annuler</div>
-          </button>
-          
-        <button (click)="validBooking()" class="bookingValidButton" >
-          <span class="bookingIcon glyphicon glyphicon-ok "></span>
-          <div>Valider</div>
-        </button>
+      <button (click)="cancelBooking()" class="bookingCancelButton">
+        <span class="bookingIcon glyphicon glyphicon-remove-sign "></span>
+        <div>Annuler</div>
+      </button>
+
+      <button (click)="validBooking()" class="bookingValidButton">
+        <span class="bookingIcon glyphicon glyphicon-ok-sign "></span>
+        <div>Valider</div>
+      </button>
 
     </div>
 

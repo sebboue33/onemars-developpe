@@ -26,6 +26,7 @@ export function initUsers() {
     user.login = 'sboue';
     user.category = Category.USER;
     user.password = 'sboue';
+    user.idUser = 'U001';
 
     mapUsers.set(user.login, user);
 
@@ -35,6 +36,7 @@ export function initUsers() {
     admin.login = 'admin';
     admin.category = Category.ADMIN;
     admin.password = 'admin';
+    admin.idUser = 'A001';
 
     mapUsers.set(admin.login, admin);
   }
