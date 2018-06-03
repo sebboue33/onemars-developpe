@@ -5,7 +5,8 @@ import {
   MatMenuModule,
   MatToolbarModule,
   MatIconModule,
-  MatCardModule
+  MatCardModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatTableModule } from '@angular/material';
@@ -45,7 +46,8 @@ import { BookingBoardComponentComponent } from './booking-board-component/bookin
     MatCardModule,
     MatSidenavModule,
     SidebarModule.forRoot(),
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule
 
   ],
   providers: [],

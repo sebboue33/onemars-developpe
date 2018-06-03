@@ -12,33 +12,58 @@
     <div>Liste de vos réservations : </div>
 
     <br>
-    
-    <table  mat-table [dataSource]="getMapBookingsBySuser()" class="mat-elevation-z8">
-       <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Position Column -->
+    <table mat-table [dataSource]="getMapBookingsBySuser()" class="mat-elevation-z8">
+
+      <!-- Colonne CheckBox -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Colonne Mois de début-->
       <ng-container matColumnDef="startmonth">
         <th mat-header-cell *matHeaderCellDef> Mois de début </th>
         <td mat-cell *matCellDef="let element"> {{getStartMonth(element)}} </td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Colonne mois de fin -->
       <ng-container matColumnDef="endmonth">
         <th mat-header-cell *matHeaderCellDef> Mois de fin </th>
         <td mat-cell *matCellDef="let element"> {{getEndMonth(element)}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
+      <!-- Colonne Maison-->
       <ng-container matColumnDef="house">
         <th mat-header-cell *matHeaderCellDef> Maison </th>
         <td mat-cell *matCellDef="let element"> {{getHouse(element)}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
+      <!-- Colonne Vaisseau-->
       <ng-container matColumnDef="starship">
         <th mat-header-cell *matHeaderCellDef> Vaisseau </th>
         <td mat-cell *matCellDef="let element"> {{getStarShip(element)}} </td>
+      </ng-container>
+
+      <!-- Colonne Action-->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="buttonActionContainer">
+            <button (click)="addBooking()" class="bookingActionButton">
+              <span class="bookingIcon glyphicon glyphicon-pencil "></span>
+            </button>
+            <button (click)="addBooking()" class="bookingActionButton">
+              <span class="bookingIcon glyphicon glyphicon-trash "></span>
+            </button>
+          </div>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

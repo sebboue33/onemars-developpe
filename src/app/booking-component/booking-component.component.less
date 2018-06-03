@@ -243,27 +243,77 @@ table.mat-elevation-z8.mat-table {
     width: 100%;
     border-radius: 10px;
     box-shadow: none;
-    font-size:1.5rem;
+
 }
 
 th.mat-header-cell.cdk-column-startmonth.mat-column-startmonth {
     background-color: @background_color4;
     color:white;
+    font-size:1.5rem;
 }
 
 th.mat-header-cell.cdk-column-endmonth.mat-column-endmonth {
     background-color: @background_color4;
     color:white;
+    font-size:1.5rem;
 }
 
 th.mat-header-cell.cdk-column-house.mat-column-house {
     background-color: @background_color4;
     color:white;
+    font-size:1.5rem;
 }
 
 th.mat-header-cell.cdk-column-starship.mat-column-starship {
     background-color: @background_color4;
     color:white;
+    font-size:1.5rem;
 }
+
+th.mat-header-cell.cdk-column-select.mat-column-select {
+    background-color: @background_color4;
+    border-radius: 10px 0 0 0;
+}
+
+th.mat-header-cell.cdk-column-action.mat-column-action {
+    background-color: @background_color4;
+    color:white;
+    font-size:1.5rem;
+    border-radius: 0 10px 0 0;
+    text-align: center;
+}
+
+td.mat-cell:last-child, td.mat-footer-cell:last-child, th.mat-header-cell:last-child {
+    padding-right: 24px;
+    width: 10%;
+}
+
+.buttonActionContainer{
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+    text-align: center;
+}
+
+
+.bookingActionButton{
+    order: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    color: white;
+    background-color:@background_color5;
+    transition: background-color 0.5s;
+    outline: none;
+    cursor: pointer;
+    margin: auto;
+
+}
+
+.bookingActionButton:hover{
+    background-color: @background_color3;
+    transition: background-color 0.5s;
+}
+
 
 

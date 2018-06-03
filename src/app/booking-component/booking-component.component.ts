@@ -9,6 +9,7 @@ import { Month } from '../enums/Month';
 import { EnumValues } from 'enum-values';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Booking } from '../models/Booking';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-booking-component',
@@ -31,7 +32,8 @@ export class BookingComponentComponent implements OnInit {
   editorBookingVisible = false;
   mapBookingsBySuser = new Map<string, Booking>();
   allItemsSelected = false;
-  displayedColumns = ['startmonth', 'endmonth', 'house', 'starship'];
+  displayedColumns = ['select', 'startmonth', 'endmonth', 'house', 'starship', 'action'];
+  selection = new SelectionModel<Booking>(true, []);
 
   @Input()
   tabMonths: any[];
@@ -269,4 +271,17 @@ export class BookingComponentComponent implements OnInit {
       return BookingServices.getStarShipById(element.idStarShip).name;
     }
   }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.mapBookingsBySuser.size;
+    return numSelected === numRows;
+  }
+
+  
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.mapBookingsBySuser.forEach(row => this.selection.select(row));
+  }  
 }
