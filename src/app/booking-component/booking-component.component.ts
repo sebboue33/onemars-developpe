@@ -10,12 +10,19 @@ import { EnumValues } from 'enum-values';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Booking } from '../models/Booking';
 import { SelectionModel } from '@angular/cdk/collections';
+import $ from 'jquery';
+
+const MODE_CREATE = 1;
+const MODE_MODIFY = 2;
 
 @Component({
   selector: 'app-booking-component',
   templateUrl: './booking-component.component.html',
   styleUrls: ['./booking-component.component.less']
 })
+
+
+
 export class BookingComponentComponent implements OnInit {
 
   tabHouses: House[] = new Array();
@@ -34,6 +41,9 @@ export class BookingComponentComponent implements OnInit {
   allItemsSelected = false;
   displayedColumns = ['select', 'startmonth', 'endmonth', 'house', 'starship', 'action'];
   selection = new SelectionModel<Booking>(true, []);
+  mode = MODE_CREATE;
+  selectedBooking: any;
+  
 
   @Input()
   tabMonths: any[];
@@ -149,7 +159,7 @@ export class BookingComponentComponent implements OnInit {
     const indexMax = this.monthEndSelectedId === -1 ? 0 : this.monthEndSelectedId;
     const indexMin = this.monthStartSelectedId === -1 ? 0 : this.monthStartSelectedId;
 
-    for ( let index = indexMin; index < indexMax + 1; index++) {
+    for (let index = indexMin; index < indexMax + 1; index++) {
       document.getElementById('monthid-' + index).classList.add('itemMonthsLineSelected');
     }
   }
@@ -187,7 +197,7 @@ export class BookingComponentComponent implements OnInit {
     if (this.houseSelected === null) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.add('itemHouseSelected');
       this.houseSelected = houseSelected;
- 
+
     } else if (this.houseSelected === houseSelected) {
       document.getElementById('houseid-' + houseSelected.idHouse).classList.remove('itemHouseSelected');
       this.houseSelected = null;
@@ -205,20 +215,26 @@ export class BookingComponentComponent implements OnInit {
    * Validation de la réservation
    */
   validBooking() {
+
     const newBooking: Booking = new Booking();
 
     // ajout des mois et de la maison
     newBooking.startMonth = this.tabMonths[this.monthStartSelectedId - 1];
-    if(this.monthEndSelectedId === -1){
+    if (this.monthEndSelectedId === -1) {
       newBooking.endMonth = this.tabMonths[this.monthStartSelectedId - 1];
-    }else{
+    } else {
       newBooking.endMonth = this.tabMonths[this.monthEndSelectedId - 1];
     }
-    
+
     newBooking.idHouse = this.houseSelected.idHouse;
     newBooking.idUser = UserServices.getActiveUser().idUser;
-
-    var codeRet = BookingServices.createBooking(newBooking);
+    
+    let codeRet = 0;
+    if (this.mode === MODE_CREATE) {
+       codeRet = BookingServices.createBooking(newBooking);
+    } else {
+       codeRet = BookingServices.updateBooking(newBooking);
+    }
 
     this.mapBookingsBySuser = BookingServices.getBookingsByUser(UserServices.getActiveUser().idUser);
 
@@ -241,6 +257,7 @@ export class BookingComponentComponent implements OnInit {
   }
 
   addBooking() {
+    this.mode = MODE_CREATE;
     this.editorBookingVisible = true;
   }
 
@@ -278,10 +295,35 @@ export class BookingComponentComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  
+
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.mapBookingsBySuser.forEach(row => this.selection.select(row));
-  }  
+      this.selection.clear() :
+      this.mapBookingsBySuser.forEach(row => this.selection.select(row));
+  }
+
+  deleteBooking(element) {
+    BookingServices.deleteBooking(element.idBooking);
+    this.mapBookingsBySuser = BookingServices.getBookingsByUser(UserServices.getActiveUser().idUser);
+  }
+
+  modifyBooking(element) {
+
+    this.editorBookingVisible = true;
+    this.mode = MODE_MODIFY;
+    this.selectedBooking = element;
+    
+  }
+
+  updateBookingEditor(){
+    if(this.mode === MODE_MODIFY){
+      this.selectMonth(this.tabMonths[this.selectedBooking.startMonth.id - 1]);
+      this.selectMonth(this.tabMonths[this.selectedBooking.endMonth.id - 1]);
+      this.houseSelected(BookingServices.getHouseById(this.selectedBooking.idHouse));
+    }
+  }
+
+  showHouses(){
+    return this.houseVisible || this.mode === MODE_MODIFY;
+  }
 }

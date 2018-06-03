@@ -26,10 +26,28 @@ export function createBooking(bookingToCreate: Booking) {
 
     starShipXJ45Available = true;
     starShipH43DAvailable = true;
-    
-    let monthOverLap = false;
     let codeRet = 0;
 
+
+    codeRet = checkBookingValidity(bookingToCreate);
+
+    if (codeRet === 200 || codeRet === 300) {
+        //Ajout de la reservation a la map des réservation 
+        const generator = new IDGenerator();
+        let idNewBooking = generator.generate();
+        bookingToCreate.idBooking = idNewBooking;
+        mapBooking.set(idNewBooking, bookingToCreate);
+    }
+
+
+
+    return (codeRet);
+}
+
+function checkBookingValidity(bookingToCreate) {
+
+let codeRet = 0;
+let monthOverLap = false;
 
     // Parcours la map des reservations
     for (const keyBooking of Array.from(mapBooking.keys())) {
@@ -63,7 +81,7 @@ export function createBooking(bookingToCreate: Booking) {
         bookingToCreate.idStarShip = STARSHIP_ID_H43D;
         codeRet = 400;
     } else {
-        //Assigne le vaisseau si dispo
+        // Assigne le vaisseau si dispo
         if (starShipXJ45Available) {
             bookingToCreate.idStarShip = STARSHIP_ID_XJ45;
             codeRet = 200;
@@ -75,20 +93,8 @@ export function createBooking(bookingToCreate: Booking) {
         }
     }
 
-
-
-    if (codeRet === 200 || codeRet === 300) {
-        //Ajout de la reservation a la map des réservation 
-        const generator = new IDGenerator();
-        let idNewBooking = generator.generate();
-        mapBooking.set(idNewBooking, bookingToCreate);
-    }
-
-
-
-    return (codeRet);
+    return codeRet;
 }
-
 
 /**
      * Methode permettant de connaitre la dispo des vaisseaux.
@@ -125,10 +131,33 @@ function datesAreOverLap(dateBooking, dateStartBookingToCreate,dateEndBookingToC
    
 }
 
+/**
+ * 
+ * @param booking Mise a jour de la resa si pas de chevauchement.
+ */
 export function updateBooking(booking) {
+
+    const bookingSave = mapBooking.get(booking.idBooking);
+
+    mapBooking.delete(booking.idBooking);
+    const codeRet = checkBookingValidity(booking);
+
+    if(codeRet === 200 || 300){
+        mapBooking.set(booking.idBooking, booking);
+    }else{
+        mapBooking.set(booking.idBooking, bookingSave);
+    }
+
+    return  codeRet;
 }
 
-export function deleteBooking(booking) {
+/**
+ * Suppression d'un resa
+ * @param idBooking
+ */
+export function deleteBooking(idBooking) {
+
+    mapBooking.delete(idBooking);
 }
 
 export function getBookingByUSer(userId) {
