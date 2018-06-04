@@ -6,7 +6,7 @@ import { Category } from '../enums/Category';
 const user = new User();
 const admin = new User();
 const mapUsers = new Map<string, User>();
-const activeUser = new User();
+let activeUser = new User();
 
 export function createUSer(userToCreate: User ) {
 
@@ -52,7 +52,7 @@ export function initUsers() {
 
       // Si utilisateur connu on initialise l'utilisateur courant.
       if (messageAlert === '') {
-        this.activeUser = this.getUserInfo($event.login);
+        activeUser = getUserInfo($event.login);
       }
 
       return messageAlert;
@@ -60,5 +60,5 @@ export function initUsers() {
   }
 
   export function getActiveUser() {
-    return this.activeUser;
+    return activeUser;
   }
