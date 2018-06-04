@@ -239,8 +239,8 @@ function IDGenerator() {
     }
 
     this.generate = function () {
-        var ts = timestamp.toString();
-        var parts = ts.split("").reverse();
+        const ts = timestamp.toString();
+        var parts = ts.split('').reverse();
         var id = "";
 
         for (var i = 0; i < length; ++i) {

@@ -4,13 +4,12 @@ import { StarShip } from './StarShip';
 
 
 /**
- * Classe d�crivant une réservation. 
+ * Classe décrivant une réservation.
  */
 
 
 
 export class Booking {
-
 
     private _idUser: string;
     private _idBooking: string;
