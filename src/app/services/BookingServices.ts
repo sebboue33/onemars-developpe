@@ -102,6 +102,9 @@ let monthOverLap = false;
      */
     function checkStarShipAvailable(bookingTemp) {
 
+        starShipXJ45Available = true;
+        starShipXJ45Available = true;
+
         if (bookingTemp.idStarShip !== undefined && bookingTemp.idStarShip !== null) {
             const starshipTemp = mapStarships.get(bookingTemp.idStarShip);
 
